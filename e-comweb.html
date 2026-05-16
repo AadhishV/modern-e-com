@@ -1,0 +1,1066 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShopFast — Modern Store</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="manifest" href="./manifest.json" />
+    <meta name="theme-color" content="#e8470a" />
+    <link rel="stylesheet" href="./e-comweb.css" />
+  </head>
+  <body>
+    <!-- TOAST -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- NAV -->
+    <nav class="nav">
+      <div class="nav__logo">ShopFast</div>
+      <div class="nav__tabs">
+        <button class="nav__tab active" data-tab="shop" id="shop__products">
+          Shop
+        </button>
+        <button class="nav__tab" data-tab="wishlist">Wishlist</button>
+        <button class="nav__tab" data-tab="cart">Cart</button>
+        <button class="nav__tab" data-tab="account">Account</button>
+        <button class="nav__tab" data-tab="orders">Orders</button>
+        <button class="nav__tab" data-tab="contact">Contact</button>
+      </div>
+      <div class="nav__actions">
+      <button class="nav__btn" data-tab="wishlist">
+          ♡
+          <span id="wishlist-badge" class="nav__badge" style="display: none"
+            >0</span
+          >
+        </button>
+        <button class="nav__btn" data-tab="cart">
+          🛒
+          <span id="cart-badge" class="nav__badge" style="display: none"
+            >0</span
+          >
+        </button>
+        <button class="nav__btn" id="notify-btn">
+          🔔
+          <span id="notify-badge" class="nav__badge" style="display: none"
+            >0</span
+          >
+        </button>
+        <button class="theme-btn" id="theme-toggle">🌙 Dark</button>
+
+        <input type="checkbox" id="mobile-menu-toggle" />
+
+        <label class="hamburger" for="mobile-menu-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </label>
+
+        <div class="mobile_nav__tabss">
+          <button class="nav__tab active" data-tab="shop">Shop</button>
+          <button class="nav__tab" data-tab="wishlist">Wishlist</button>
+          <button class="nav__tab" data-tab="cart">Cart</button>
+          <button class="nav__tab" data-tab="account">Account</button>
+          <button class="nav__tab" data-tab="orders">Orders</button>
+          <button class="nav__tab" data-tab="contact">Contact</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ===== SHOP PAGE ===== -->
+    <main>
+      <section class="page active" id="page-shop">
+        <div class="hero">
+          <div class="hero__tag">New Season 2025</div>
+          <h1>Style That<br />Speaks Volumes</h1>
+          <p>
+            Premium products curated for the discerning buyer. Free shipping on
+            orders over ₹999.
+          </p>
+          <a href="#products-grid" class="hero__cta">Shop Now →</a>
+        </div>
+
+        <div class="search-bar">
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Search products…"
+            autocomplete="off"
+          />
+          <button
+            class="btn btn--secondary"
+            id="filter-toggle-btn"
+            title="Show filters"
+          >
+            Show Filters
+          </button>
+          <button class="btn btn--primary" id="search-btn">Search</button>
+          <button class="btn btn--outline" id="search-clear">Clear</button>
+        </div>
+        <div class="search-suggestions" id="search-suggestions"></div>
+
+        <div class="filter-toolbar hidden" id="filter-toolbar">
+          <div class="filter-group">
+            <label>Price</label>
+            <div class="range-row">
+              <span id="price-min-label">₹0</span>
+              <input
+                type="range"
+                id="price-range"
+                min="0"
+                max="120000"
+                step="500"
+                value="120000"
+              />
+              <span id="price-max-label">₹120000</span>
+            </div>
+          </div>
+          <div class="filter-group">
+            <label>Brand</label>
+            <select id="brand-filter">
+              <option value="all">All brands</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Rating</label>
+            <select id="rating-filter">
+              <option value="0">Any</option>
+              <option value="4">4+ stars</option>
+              <option value="4.5">4.5+ stars</option>
+              <option value="5">5 stars</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Availability</label>
+            <select id="stock-filter">
+              <option value="all">All</option>
+              <option value="in-stock">In stock only</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Sort</label>
+            <select id="sort-order">
+              <option value="default">Recommended</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="rating-desc">Best Rating</option>
+            </select>
+          </div>
+        </div>
+        <br /><br />
+        <!-- ============================================
+              FLASH SALE SECTION
+        ============================================= -->
+
+        <!-- Header -->
+        <div class="section-header" for="#shop__products">
+          <div class="section-title-group">
+            <span class="flash-icon">⚡</span>
+            <h2 class="section-title">Flash Sale</h2>
+          </div>
+
+          <!-- Countdown Timer -->
+          <div class="countdown">
+            <span class="countdown-label">Ends in</span>
+            <div class="time-block" id="hours">00<small>HRS</small></div>
+            <span class="colon">:</span>
+            <div class="time-block" id="minutes">00<small>MIN</small></div>
+            <span class="colon">:</span>
+            <div class="time-block" id="seconds">00<small>SEC</small></div>
+          </div>
+
+          <a href="#live-flash_shopping" class="view-all">View All →</a>
+        </div>
+
+        <!-- Stock progress bar -->
+        <div class="sale-progress">
+          <div class="progress-meta">
+            <span>🔥 <strong>134 sold</strong> today</span>
+            <span>67% claimed — Hurry!</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="saleProgress"></div>
+          </div>
+        </div>
+        <br /><br />
+        <div class="trending-section">
+          <div class="section-header">
+            <div class="section-title-group">
+              <span class="flash-icon">🔥</span>
+              <h2 class="section-title">Trending Now</h2>
+            </div>
+            <p class="section-sub">Handpicked products that shoppers love.</p>
+          </div>
+          <div class="trending-grid" id="trending-grid"></div>
+        </div>
+        <br />
+        <div class="slider-section">
+          <div class="section-header slider-header">
+            <div class="section-title-group">
+              <span class="flash-icon">⭐</span>
+              <h2 class="section-title">Popular Picks</h2>
+            </div>
+            <div class="slider-actions">
+              <button
+                class="btn btn--icon"
+                id="slider-prev"
+                aria-label="Previous"
+              >
+                ←
+              </button>
+              <button class="btn btn--icon" id="slider-next" aria-label="Next">
+                →
+              </button>
+            </div>
+          </div>
+          <div class="product-slider" id="product-slider"></div>
+        </div>
+        <br /><br />
+        <div class="filters" id="filter-chips"></div>
+
+        <!-- All PRODUCTS -->
+        <h2 class="section-title">All Products</h2>
+        <div class="products-grid" id="products-grid"></div>
+
+        <!-- FLASH PRODUCTS -->
+        <div class="section-title-group" id="live-flash_shopping">
+          <span class="flash-icon">⚡</span>
+          <h2 class="section-title">Flash Sale</h2>
+        </div>
+
+        <div class="sale-progress">
+          <div class="progress-meta">
+            <span>🔥 <strong>134 sold</strong> today</span>
+            <span>67% claimed — Hurry!</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill"></div>
+          </div>
+        </div>
+        <div class="flashproducts-grid" id="flashProducts"></div>
+
+        <!-- ============================================
+                      RECENTLY VIEWED
+        ============================================= -->
+        <br />
+        <br />
+        <section class="recently-viewed">
+          <div class="rv-header">
+            <div class="rv-title">
+              <div class="dot"></div>
+              Recently Viewed
+            </div>
+            <button class="clear-btn" onclick="clearRecentlyViewed()">
+              Clear All
+            </button>
+          </div>
+
+          <div class="rv-scroll" id="recentlyViewed">
+            <p class="rv-empty">
+              No recently viewed products yet. Click any product above!
+            </p>
+          </div>
+        </section>
+      </section>
+
+      <!-- ===== WISHLIST PAGE ===== -->
+      <section class="page" id="page-wishlist">
+        <h2 class="section-title">My Wishlist</h2>
+        <p class="section-sub">Items you've saved for later</p>
+        <div class="wishlist-grid" id="wishlist-grid"></div>
+      </section>
+
+      <!-- ===== CART PAGE ===== -->
+      <section class="page" id="page-cart">
+        <h2 class="section-title">Your Cart</h2>
+        <div class="cart-layout">
+          <div class="cart-items" id="cart-items"></div>
+          <div class="cart-summary">
+            <h3>Order Summary</h3>
+            <div class="cart-summary-row">
+              <span>Subtotal</span><span id="summary-sub">₹0.00</span>
+            </div>
+            <div class="cart-summary-row">
+              <span>Shipping</span><span id="summary-ship">₹0.00</span>
+            </div>
+            <div class="cart-summary-row">
+              <span>Tax (18%)</span><span id="summary-tax">₹0.00</span>
+            </div>
+            <div
+              class="cart-summary-row"
+              style="padding-top: 12px; font-size: 1.1rem"
+            >
+              <span>Total</span><span id="summary-total">₹0.00</span>
+            </div>
+            <button
+              class="btn btn--primary btn--full btn--lg"
+              style="margin-top: 20px"
+              id="checkout-btn"
+            >
+              Proceed to Checkout
+            </button>
+            <p
+              style="
+                text-align: center;
+                font-size: 0.78rem;
+                color: var(--text3);
+                margin-top: 10px;
+              "
+            >
+              🔒 Secure checkout · Free returns
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== ACCOUNT PAGE ===== -->
+      <section class="page" id="page-account">
+        <div class="auth-wrap">
+          <!-- Login / Register -->
+          <div id="auth-section">
+            <div class="auth-card">
+              <h2 id="auth-title">Welcome Back</h2>
+              <p id="auth-sub">Sign in to access your cart & wishlist</p>
+
+              <div id="login-form">
+                <div class="form-group">
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    id="login-email"
+                    placeholder="you@example.com"
+                    autocomplete="email"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    id="login-pwd"
+                    placeholder="••••••••"
+                  />
+                </div>
+                <button
+                  class="btn btn--primary btn--full btn--lg"
+                  id="login-btn"
+                >
+                  Sign In
+                </button>
+                <div class="auth-switch">
+                  Don't have an account?
+                  <button id="switch-to-register">Register</button>
+                </div>
+              </div>
+
+              <div id="register-form" style="display: none">
+                <div class="form-group">
+                  <label>Full Name</label>
+                  <input
+                    type="text"
+                    id="reg-name"
+                    placeholder="Karthik Kumar"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    id="reg-email"
+                    placeholder="you@example.com"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    id="reg-pwd"
+                    placeholder="Min 8 characters"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Phone</label>
+                  <input
+                    type="tel"
+                    id="reg-phone"
+                    placeholder="+91 98765 43210"
+                  />
+                </div>
+                <button
+                  class="btn btn--primary btn--full btn--lg"
+                  id="register-btn"
+                >
+                  Create Account
+                </button>
+                <div class="auth-switch">
+                  Already have an account?
+                  <button id="switch-to-login">Sign In</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Logged in panel -->
+          <div id="user-section" style="display: none">
+            <div class="user-panel">
+              <div class="user-avatar" id="user-avatar">A</div>
+              <h3 id="user-name">Arjun Kumar</h3>
+              <p id="user-email">arjun@example.com</p>
+              <div class="info-grid">
+                <div class="info-row">
+                  <strong>Phone</strong><span id="user-phone">—</span>
+                </div>
+                <div class="info-row">
+                  <strong>Address</strong><span id="user-address">—</span>
+                </div>
+                <div class="info-row">
+                  <strong>City</strong><span id="user-city">—</span>
+                </div>
+                <div class="info-row">
+                  <strong>Member</strong><span id="user-since">—</span>
+                </div>
+              </div>
+              <!-- PROFILE EDITING -->
+              <div
+                class="profile-editor"
+                id="profile-editor"
+                style="display: none"
+              >
+                <div class="form-group">
+                  <label>Profile Photo</label>
+                  <div class="avatar-preview" id="profile-photo-preview">
+                    Upload
+                  </div>
+                  <input
+                    type="file"
+                    id="profile-photo-input"
+                    accept="image/*"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Name</label>
+                  <input type="text" id="profile-name" />
+                </div>
+                <div class="form-group">
+                  <label>Email</label>
+                  <input type="email" id="profile-email" />
+                </div>
+                <div class="form-group">
+                  <label>Phone</label>
+                  <input type="tel" id="profile-phone" />
+                </div>
+                <div class="form-group">
+                  <label>Address</label>
+                  <input type="text" id="profile-address" />
+                </div>
+                <div class="form-group">
+                  <label>City</label>
+                  <input type="text" id="profile-city" />
+                </div>
+                <div class="profile-editor-actions">
+                  <button class="btn btn--primary" id="profile-save-btn">
+                    Save changes
+                  </button>
+                  <button class="btn btn--outline" id="profile-cancel-btn">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  gap: 10px;
+                  flex-wrap: wrap;
+                  margin-top: 10px;
+                "
+              >
+                <button class="btn btn--outline" id="view-orders-btn">
+                  My Orders
+                </button>
+                <button class="btn btn--secondary" id="edit-profile-btn">
+                  Edit Profile
+                </button>
+                <button class="btn btn--danger" id="logout-btn">
+                  Sign Out
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== CONTACT PAGE ===== -->
+      <section class="page" id="page-contact">
+        <h2 class="section-title">Get In Touch</h2>
+        <p class="section-sub">
+          We'd love to hear from you. Reach us any time!
+        </p>
+
+        <div class="contact-layout">
+          <div>
+            <div class="contact-card">
+              <div class="contact-info-item">
+                <div class="ico">📍</div>
+                <div>
+                  <div class="label">Address</div>
+                  <div class="val">
+                    176, North Street, Vayalamoor<br />Cuddalore — 608 601,
+                    Tamil Nadu
+                  </div>
+                </div>
+              </div>
+              <div class="contact-info-item">
+                <div class="ico">📞</div>
+                <div>
+                  <div class="label">Phone</div>
+                  <div class="val">+91 78260 05921</div>
+                </div>
+              </div>
+              <div class="contact-info-item">
+                <div class="ico">✉️</div>
+                <div>
+                  <div class="label">Email</div>
+                  <div class="val">aaadhish208@gmail.com</div>
+                </div>
+              </div>
+              <div class="contact-info-item">
+                <div class="ico">🕐</div>
+                <div>
+                  <div class="label">Hours</div>
+                  <div class="val">
+                    Mon–Sat: 9 AM – 7 PM<br />Sunday: 10 AM – 4 PM
+                  </div>
+                </div>
+              </div>
+              <div class="map-mock">🗺️ Cuddalore, Tamil Nadu</div>
+            </div>
+          </div>
+
+          <div class="contact-card">
+            <h3
+              style="
+                font-family: &quot;Syne&quot;, sans-serif;
+                font-weight: 700;
+                font-size: 1.2rem;
+                color: var(--text);
+                margin-bottom: 20px;
+              "
+            >
+              Send a Message
+            </h3>
+            <div class="form-group">
+              <label>Your Name</label>
+              <input type="text" id="contact-name" placeholder="Priya Sweety" />
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input
+                type="email"
+                id="contact-email"
+                placeholder="you@example.com"
+              />
+            </div>
+            <div class="form-group">
+              <label>Subject</label>
+              <input
+                type="text"
+                id="contact-subject"
+                placeholder="Order enquiry, return request…"
+              />
+            </div>
+            <div class="form-group">
+              <label>Message</label>
+              <textarea
+                id="contact-msg"
+                rows="4"
+                placeholder="Tell us how we can help…"
+              ></textarea>
+            </div>
+            <button class="btn btn--primary btn--full" id="contact-send">
+              Send Message →
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== SHIPPING POLICY PAGE ===== -->
+      <section class="page" id="page-shipping">
+        <h2 class="section-title">Shipping Policy</h2>
+        <div class="policy-content">
+          <h3>Free Shipping</h3>
+          <p>
+            We offer free shipping on all orders over ₹999. For orders below
+            this amount, standard shipping charges apply.
+          </p>
+
+          <h3>Delivery Time</h3>
+          <ul>
+            <li><strong>Standard Delivery:</strong> 3-5 business days</li>
+            <li>
+              <strong>Express Delivery:</strong> 1-2 business days (₹199 extra)
+            </li>
+            <li>
+              <strong>Same Day Delivery:</strong> Available in select cities
+              (₹299 extra)
+            </li>
+          </ul>
+
+          <h3>Shipping Charges</h3>
+          <ul>
+            <li>Orders under ₹999: ₹99</li>
+            <li>Orders ₹999 and above: Free</li>
+            <li>Express delivery: ₹199</li>
+            <li>Same day delivery: ₹299</li>
+          </ul>
+
+          <h3>International Shipping</h3>
+          <p>
+            We currently ship within India only. International shipping will be
+            available soon.
+          </p>
+
+          <h3>Order Tracking</h3>
+          <p>
+            Once your order is shipped, you'll receive a tracking number via
+            email and SMS to track your package in real-time.
+          </p>
+        </div>
+      </section>
+
+      <!-- ===== SIZE GUIDE PAGE ===== -->
+      <section class="page" id="page-sizeguide">
+        <h2 class="section-title">Size Guide</h2>
+        <div class="policy-content">
+          <h3>Clothing Size Chart</h3>
+          <table class="size-table">
+            <thead>
+              <tr>
+                <th>Size</th>
+                <th>Chest (inches)</th>
+                <th>Waist (inches)</th>
+                <th>Hips (inches)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>S</td>
+                <td>34-36</td>
+                <td>28-30</td>
+                <td>34-36</td>
+              </tr>
+              <tr>
+                <td>M</td>
+                <td>38-40</td>
+                <td>32-34</td>
+                <td>38-40</td>
+              </tr>
+              <tr>
+                <td>L</td>
+                <td>42-44</td>
+                <td>36-38</td>
+                <td>42-44</td>
+              </tr>
+              <tr>
+                <td>XL</td>
+                <td>46-48</td>
+                <td>40-42</td>
+                <td>46-48</td>
+              </tr>
+              <tr>
+                <td>XXL</td>
+                <td>50-52</td>
+                <td>44-46</td>
+                <td>50-52</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Footwear Size Chart</h3>
+          <table class="size-table">
+            <thead>
+              <tr>
+                <th>US Size</th>
+                <th>UK Size</th>
+                <th>EU Size</th>
+                <th>Foot Length (cm)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>6</td>
+                <td>5</td>
+                <td>39</td>
+                <td>24.5</td>
+              </tr>
+              <tr>
+                <td>7</td>
+                <td>6</td>
+                <td>40</td>
+                <td>25.5</td>
+              </tr>
+              <tr>
+                <td>8</td>
+                <td>7</td>
+                <td>41</td>
+                <td>26.5</td>
+              </tr>
+              <tr>
+                <td>9</td>
+                <td>8</td>
+                <td>42</td>
+                <td>27.5</td>
+              </tr>
+              <tr>
+                <td>10</td>
+                <td>9</td>
+                <td>43</td>
+                <td>28.5</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>How to Measure</h3>
+          <ul>
+            <li>
+              <strong>Chest:</strong> Measure around the fullest part of your
+              chest
+            </li>
+            <li>
+              <strong>Waist:</strong> Measure around your natural waistline
+            </li>
+            <li>
+              <strong>Hips:</strong> Measure around the widest part of your hips
+            </li>
+            <li>
+              <strong>Foot Length:</strong> Measure from heel to toe while
+              standing
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ===== FAQS PAGE ===== -->
+      <section class="page" id="page-faqs">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <div class="policy-content">
+          <div class="faq-item">
+            <h3>How do I track my order?</h3>
+            <p>
+              You'll receive a tracking number via email and SMS once your order
+              is shipped. You can also check your order status in the Orders
+              section.
+            </p>
+          </div>
+
+          <div class="faq-item">
+            <h3>What is your return policy?</h3>
+            <p>
+              We offer a 30-day return policy on all items. Items must be unused
+              and in original packaging. Return shipping is free for defective
+              items.
+            </p>
+          </div>
+
+          <div class="faq-item">
+            <h3>Do you offer international shipping?</h3>
+            <p>
+              Currently, we only ship within India. International shipping
+              options will be available in the coming months.
+            </p>
+          </div>
+
+          <div class="faq-item">
+            <h3>How long does delivery take?</h3>
+            <p>
+              Standard delivery takes 3-5 business days. Express delivery (1-2
+              days) is available for ₹199 extra.
+            </p>
+          </div>
+
+          <div class="faq-item">
+            <h3>Can I cancel my order?</h3>
+            <p>
+              Orders can be cancelled within 1 hour of placement. Please contact
+              our support team immediately if you need to cancel.
+            </p>
+          </div>
+
+          <div class="faq-item">
+            <h3>Do you accept cash on delivery?</h3>
+            <p>
+              Yes, we accept cash on delivery for all orders. Additional charges
+              may apply for COD orders.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== ABOUT US PAGE ===== -->
+      <section class="page" id="page-about">
+        <h2 class="section-title">About ShopFast</h2>
+        <div class="policy-content">
+          <p>
+            Welcome to ShopFast, your trusted online destination for quality
+            products at affordable prices. Founded in 2020, we've been committed
+            to providing exceptional shopping experiences to customers across
+            India.
+          </p>
+
+          <h3>Our Mission</h3>
+          <p>
+            To make quality products accessible to everyone while maintaining
+            the highest standards of customer service and sustainability.
+          </p>
+
+          <h3>Our Values</h3>
+          <ul>
+            <li>
+              <strong>Quality:</strong> We carefully select products from
+              trusted brands
+            </li>
+            <li>
+              <strong>Customer First:</strong> Your satisfaction is our top
+              priority
+            </li>
+            <li>
+              <strong>Sustainability:</strong> We're committed to eco-friendly
+              practices
+            </li>
+            <li>
+              <strong>Innovation:</strong> We continuously improve our services
+            </li>
+          </ul>
+
+          <h3>Why Choose Us?</h3>
+          <ul>
+            <li>Free shipping on orders over ₹999</li>
+            <li>30-day return policy</li>
+            <li>24/7 customer support</li>
+            <li>Secure payment options</li>
+            <li>Wide range of products</li>
+          </ul>
+
+          <p>
+            Thank you for choosing ShopFast. We're here to serve you better
+            every day!
+          </p>
+        </div>
+      </section>
+
+      <!-- ===== TERMS OF SERVICE PAGE ===== -->
+      <section class="page" id="page-terms">
+        <h2 class="section-title">Terms of Service</h2>
+        <div class="policy-content">
+          <h3>Acceptance of Terms</h3>
+          <p>
+            By accessing and using ShopFast, you accept and agree to be bound by
+            the terms and provision of this agreement.
+          </p>
+
+          <h3>Use License</h3>
+          <p>
+            Permission is granted to temporarily access the materials on
+            ShopFast for personal, non-commercial transitory viewing only.
+          </p>
+
+          <h3>User Account</h3>
+          <p>
+            You are responsible for maintaining the confidentiality of your
+            account and password. You agree to accept responsibility for all
+            activities that occur under your account.
+          </p>
+
+          <h3>Prohibited Uses</h3>
+          <ul>
+            <li>Using the site for any unlawful purpose</li>
+            <li>Soliciting others to perform unlawful acts</li>
+            <li>Violating any international laws</li>
+            <li>Infringing on intellectual property rights</li>
+          </ul>
+
+          <h3>Products and Pricing</h3>
+          <p>
+            All prices are subject to change without notice. We reserve the
+            right to refuse service to anyone for any reason at any time.
+          </p>
+
+          <h3>Disclaimer</h3>
+          <p>
+            The materials on ShopFast are provided on an 'as is' basis. ShopFast
+            makes no warranties, expressed or implied, and hereby disclaims all
+            other warranties.
+          </p>
+
+          <h3>Limitations</h3>
+          <p>
+            In no event shall ShopFast be liable for any damages arising out of
+            the use or inability to use the materials on our website.
+          </p>
+        </div>
+      </section>
+
+      <!-- ===== ORDERS PAGE ===== -->
+      <section class="page" id="page-orders">
+        <h2 class="section-title">Order History</h2>
+        <p class="section-sub">Track your past orders and purchase details</p>
+        <div id="orders-list" class="orders-list"></div>
+      </section>
+
+      <div
+        class="notification-panel"
+        id="notification-panel"
+        aria-live="polite"
+      >
+        <div class="notification-panel__header">
+          <span>Notifications</span>
+          <button id="close-notifications" aria-label="Close notifications">
+            ✕
+          </button>
+        </div>
+        <div class="notification-list" id="notification-list"></div>
+      </div>
+
+      <div class="product-modal-overlay" id="product-modal-overlay">
+        <div
+          class="modal product-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-title"
+        >
+          <button
+            class="modal-close"
+            id="product-modal-close"
+            aria-label="Close product view"
+          >
+            ✕
+          </button>
+          <div class="product-modal__content">
+            <div class="product-modal__gallery">
+              <div
+                class="product-modal__main-image"
+                id="modal-main-image"
+              ></div>
+              <div class="product-modal__thumbs" id="modal-thumb-list"></div>
+            </div>
+            <div class="product-modal__info">
+              <div class="badge" id="modal-badge"></div>
+              <h2 id="modal-title"></h2>
+              <p id="modal-description"></p>
+              <div class="product-modal__price">
+                <span id="modal-price"></span>
+                <span id="modal-old-price"></span>
+              </div>
+              <div class="product-modal__meta">
+                <span id="modal-brand"></span>
+                <span id="modal-rating"></span>
+                <span id="modal-stock"></span>
+                <span id="modal-delivery"></span>
+              </div>
+              <div class="product-modal__returns" id="modal-returns"></div>
+              <div class="product-modal__actions">
+                <button class="btn btn--primary" id="modal-add-cart">
+                  Add to Cart
+                </button>
+                <button class="btn btn--secondary" id="modal-wishlist">
+                  Wishlist
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-widget" id="chat-widget">
+        <button class="chat-toggle" id="chat-toggle">🤖 ShopBot</button>
+        <div class="chat-panel" id="chat-panel">
+          <div class="chat-header">ShopFast Robot Assistant</div>
+          <div class="chat-messages" id="chat-messages">
+            <div class="chat-message bot">
+              Hi there! 👋 I'm ShopBot, your AI shopping assistant. Ask me about
+              products, deals, or help finding what you need!
+            </div>
+          </div>
+          <div class="chat-input-row">
+            <input
+              id="chat-input"
+              type="text"
+              placeholder="Ask me anything…"
+              autocomplete="off"
+            />
+            <button class="btn btn--primary" id="chat-send">Send</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">
+            ShopFast
+            <p>Your trusted online store for quality products.</p>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Shop</h4>
+          <a href="#page-shop" onclick="switchTab('shop')">New Arrivals</a>
+          <a href="#page-shop" onclick="switchTab('shop')">Electronics</a>
+          <a href="#page-shop" onclick="switchTab('shop')">Fashion</a>
+          <a href="#page-shop" onclick="switchTab('shop')">Home & Living</a>
+          <a href="#page-shop" onclick="switchTab('shop')">Accessories</a>
+          <a href="#page-shop" onclick="switchTab('shop')">Sports & Outdoors</a>
+        </div>
+        <div class="footer-col">
+          <h4>Help</h4>
+          <a href="#page-orders" onclick="switchTab('orders')">Track Order</a>
+          <a href="#page-contact" onclick="switchTab('contact')"
+            >Returns & Exchanges</a
+          >
+          <a href="#page-shipping" onclick="switchTab('shipping')"
+            >Shipping Policy</a
+          >
+          <a href="#page-sizeguide" onclick="switchTab('sizeguide')"
+            >Size Guide</a
+          >
+          <a href="#page-faqs" onclick="switchTab('faqs')">FAQs</a>
+          <a href="#page-contact" onclick="switchTab('contact')"
+            >Contact Support</a
+          >
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="#page-about" onclick="switchTab('about')">About Us</a>
+          <a href="#page-contact" onclick="switchTab('contact')">Careers</a>
+          <a href="#page-contact" onclick="switchTab('contact')"
+            >Privacy Policy</a
+          >
+          <a href="#page-terms" onclick="switchTab('terms')"
+            >Terms of Service</a
+          >
+          <a href="#page-contact" onclick="switchTab('contact')"
+            >Sustainability</a
+          >
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <a href="mailto:support@shopfast.com">support@shopfast.com</a>
+          <a href="tel:+917826005921">+91 78260 05921</a>
+          <a href="#page-contact" onclick="switchTab('contact')">Live Chat</a>
+          <a href="#page-contact" onclick="switchTab('contact')"
+            >Store Locator</a
+          >
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="year"></span> ShopFast. All rights reserved.</span>
+        <span>Made with ♥ in Tamil Nadu</span>
+      </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="e-comweb.js"></script>
+  </body>
+</html>
